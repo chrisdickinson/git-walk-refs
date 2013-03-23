@@ -1,0 +1,30 @@
+{
+  "name": "git-walk-tree",
+  "version": "0.0.0",
+  "description": "create a readable stream of git commits",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chrisdickinson/git-walk-tree.git"
+  },
+  "keywords": [
+    "git",
+    "commit",
+    "walk",
+    "stream"
+  ],
+  "author": "Chris Dickinson <chris@neversaw.us>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "3b52319d200585d1dfee90f08c54c46fb74f0e7b",
+  "dependencies": {
+    "git-parse-human": "0.0.1",
+    "through": "~2.2.7"
+  },
+  "devDependencies": {
+    "tape": "~0.3.1"
+  }
+}
