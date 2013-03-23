@@ -1,6 +1,6 @@
 {
   "name": "git-walk-tree",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "create a readable stream of git commits",
   "main": "index.js",
   "scripts": {
