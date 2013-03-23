@@ -1,4 +1,4 @@
-# git-walk-tree
+# git-walk-refs
 
 given a function to lookup hashes, a list of hashes
 to walk, and an optional hash to stop at, return
@@ -7,7 +7,7 @@ chronological order.
 
 ```javascript
 var load = require('git-fs-repo')
-  , walk = require('git-walk-tree')
+  , walk = require('git-walk-refs')
   , fs = require('fs')
 
 load(fs, function(err, git) {

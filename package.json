@@ -1,5 +1,5 @@
 {
-  "name": "git-walk-tree",
+  "name": "git-walk-refs",
   "version": "0.0.1",
   "description": "create a readable stream of git commits",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/chrisdickinson/git-walk-tree.git"
+    "url": "git://github.com/chrisdickinson/git-walk-refs.git"
   },
   "keywords": [
     "git",
