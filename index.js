@@ -8,6 +8,15 @@ function spider(findhash, hashes, untilhash) {
     , ended = false
     , seen = {}
 
+  if(untilhash) {
+    if(typeof untilhash !== 'string') {
+      untilhash = [untilhash]
+    }
+    for(var i = 0, len = untilhash.length; i < len; ++i) {
+      seen[untilhash[i]] = true
+    }
+  }
+
   process.nextTick(step)
 
   return stream
