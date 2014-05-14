@@ -123,7 +123,7 @@ function spider(findhash, hashes, untilhash) {
 
       // grab the parents of the current maximum.
       expecting = parents.length
-      output.splice.apply(expecting, [max_idx, 1].concat(parents))
+      output.splice.apply(output, [max_idx, 1].concat(parents))
 
       for(var i = 0, len = parents.length; i < len; ++i) {
         grab(parents[i], i + max_idx)
