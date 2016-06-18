@@ -1,21 +1,12 @@
 module.exports = spider
 
 var through = require('through')
-  , human = require('git-parse-human')
+  , parseHuman = require('git-parse-human')
 
 function spider(findhash, hashes, untilhash) {
   var stream = through(write, end)
     , ended = false
     , seen = {}
-
-  if(untilhash) {
-    if(typeof untilhash !== 'string') {
-      untilhash = [untilhash]
-    }
-    for(var i = 0, len = untilhash.length; i < len; ++i) {
-      seen[untilhash[i]] = true
-    }
-  }
 
   process.nextTick(step)
 
@@ -43,7 +34,7 @@ function spider(findhash, hashes, untilhash) {
         if(err) {
           return error(err)
         }
-        
+
         if(ended) {
           return
         }
@@ -74,7 +65,7 @@ function spider(findhash, hashes, untilhash) {
         , _human
 
       for(var i = 0, len = output.length; i < len; ++i) {
-        _human = output[i].human = human(output[i].author() || output[i].committer())
+        _human = output[i].human = human(output[i])
         if(_human && _human.time > max) {
           max = _human.time
           max_idx = i
@@ -82,7 +73,7 @@ function spider(findhash, hashes, untilhash) {
       }
 
       var maximum = output[max_idx]
-        , parents = maximum.parents()
+        , _parents = parents(maximum)
 
       if(seen[maximum.hash]) {
         output.splice(max_idx, 1)
@@ -97,7 +88,7 @@ function spider(findhash, hashes, untilhash) {
       // that commit
       for(var i = 0, len = output.length; i < len; ++i) {
         var cur_pars = output[i]._cur_pars =
-              output[i]._cur_pars || output[i].parents()
+              output[i]._cur_pars || parents(output[i])
           , idx = cur_pars.indexOf(maximum.hash)
 
         if(idx > -1) {
@@ -111,7 +102,7 @@ function spider(findhash, hashes, untilhash) {
       }
 
       // if there's no more parents, recurse the others or exit
-      if(!parents.length) {
+      if(!_parents.length) {
         output.splice(max_idx, 1)
         if(!output.length) {
           ended = true
@@ -122,17 +113,33 @@ function spider(findhash, hashes, untilhash) {
       }
 
       // grab the parents of the current maximum.
-      expecting = parents.length
-      output.splice.apply(output, [max_idx, 1].concat(parents))
+      expecting = _parents.length
+      output.splice.apply(expecting, [max_idx, 1].concat(_parents))
 
-      for(var i = 0, len = parents.length; i < len; ++i) {
-        grab(parents[i], i + max_idx)
-      } 
+      for(var i = 0, len = _parents.length; i < len; ++i) {
+        grab(_parents[i], i + max_idx)
+      }
     }
   }
 
   function error(err) {
     ended = true
     stream.emit('error', err)
+  }
+}
+
+function human(obj) {
+  switch (obj.looseType) {
+    case 'commit': return parseHuman(obj.author() || obj.committer())
+    case 'tag': return parseHuman(obj.tagger())
+    default: throw new Error('Cannot get human from ' + obj.looseType)
+  }
+}
+
+function parents(obj) {
+  switch (obj.looseType) {
+    case 'commit': return obj.parents()
+    case 'tag': return []
+    default: throw new Error('Cannot get parents from ' + obj.looseType)
   }
 }
