@@ -1,6 +1,6 @@
 {
   "name": "git-walk-refs",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "create a readable stream of git commits",
   "main": "index.js",
   "scripts": {
