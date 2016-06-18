@@ -21,7 +21,7 @@
   "readmeFilename": "README.md",
   "gitHead": "3b52319d200585d1dfee90f08c54c46fb74f0e7b",
   "dependencies": {
-    "git-parse-human": "0.0.1",
+    "git-parse-human": "^1.0.0",
     "through": "~2.2.7"
   },
   "devDependencies": {
